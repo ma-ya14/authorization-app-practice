@@ -17,6 +17,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         // TODO: $this->authorize('update', $post); を追加する
+        // ポリシーで権限チェック
+        $this->authorize('update', $post);
 
         return view('posts.edit', compact('post'));
     }
@@ -24,23 +26,25 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         // TODO: $this->authorize('update', $post); を追加する
+         $this->authorize('update', $post);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'required',
         ]);
 
         $post->update($validated);
 
-        return redirect()->route('posts.index');
+        return redirect()->route($posts.index);
     }
 
     public function destroy(Post $post)
     {
         // TODO: $this->authorize('delete', $post); を追加する
+                $this->authorize('delete', $post);
 
         $post->delete();
 
-        return redirect()->route('posts.index');
+        return redirect()->route($posts.index);
     }
 }

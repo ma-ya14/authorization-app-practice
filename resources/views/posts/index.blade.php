@@ -48,12 +48,18 @@
                     <p class="content">{{ $post->content }}</p>
                     <div class="actions">
                         {{-- TODO: @canディレクティブを追加して、投稿者のみに編集・削除ボタンを表示する --}}
-                        <a href="{{ route('posts.edit', $post) }}" class="btn-edit">編集</a>
-                        <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-delete">削除</button>
-                        </form>
+
+                        @can('update', $post)
+                            <a href="{{ route('posts.edit', $post) }}" class="btn-edit">編集</a>
+                        @endcan
+
+                        @can('delete', $post)
+                                 <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">削除</button>
+                            </form>
+                        @endcan    
                     </div>
                 </div>
             @endforeach
